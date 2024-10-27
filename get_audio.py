@@ -37,6 +37,7 @@ def download_bilibili_audio(url: str, output_path: str = 'downloads/', audio_for
             'preferredcodec': audio_format,  # Convert to the desired format (e.g., mp3)
             'preferredquality': '192',# Set audio quality (in kbps)
         }],
+        'ffmpeg_location': "/usr/bin/ffmpeg",
         "postprocessor_args":['-ar', '16000'],  # Set the audio sample rate to 16 kHz
         'noplaylist': True,  # Only download a single video if it's part of a playlist
     }
