@@ -1,8 +1,5 @@
 import os
 import google.generativeai as genai
-from dotenv import load_dotenv
-
-load_dotenv()
 
 def upload_to_gemini(path, mime_type=None):
   """Uploads the given file to Gemini.
