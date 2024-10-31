@@ -1,6 +1,7 @@
 import os
 import google.generativeai as genai  # type: ignore
 from typing import Optional
+from google.generativeai.files import file_types
 
 
 def prompt_selector(mode: str) -> str:
@@ -76,7 +77,7 @@ def prompt_selector(mode: str) -> str:
         return ""
 
 
-def upload_to_gemini(path: str, mime_type: Optional[str] = None):
+def upload_to_gemini(path: str, mime_type: Optional[str] = None) -> file_types.File:
     """Uploads a file to the Gemini API.
 
     Args:
