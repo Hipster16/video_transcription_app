@@ -1,10 +1,11 @@
-import yt_dlp
-from typing import Optional
+import yt_dlp  # type: ignore
 import hashlib
 import os
 
 
-def download_bilibili_audio(url: str, output_path: str = 'downloads/', audio_format: str = 'mp3') -> str:
+def download_bilibili_audio(
+    url: str, output_path: str = "downloads/", audio_format: str = "mp3"
+) -> str:
     """
     Downloads audio from a given Bilibili video URL and saves it in the specified format.
 
@@ -25,25 +26,29 @@ def download_bilibili_audio(url: str, output_path: str = 'downloads/', audio_for
     os.makedirs("downloads", exist_ok=True)
 
     if audio_format not in supported_formats:
-        raise ValueError(f"Invalid audio format '{audio_format}'. Supported formats are: {', '.join(supported_formats)}")
+        raise ValueError(
+            f"Invalid audio format '{audio_format}'. Supported formats are: {', '.join(supported_formats)}"
+        )
 
     # yt-dlp options to download only audio and convert to the desired format
     md5_hash = hashlib.md5(url.encode()).hexdigest()
     ydl_opts = {
-        'format': 'bestaudio/best',  # Download the best available audio
-        'outtmpl': f'{output_path}{md5_hash}.%(ext)s',  # Set the output filename format
-        'postprocessors': [{  # Postprocess the audio file
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': audio_format,  # Convert to the desired format (e.g., mp3)
-            'preferredquality': '192',# Set audio quality (in kbps)
-        }],
-        'ffmpeg_location': "/usr/bin/ffmpeg",
-        "postprocessor_args":['-ar', '16000'],  # Set the audio sample rate to 16 kHz
-        'noplaylist': True,  # Only download a single video if it's part of a playlist
+        "format": "bestaudio/best",  # Download the best available audio
+        "outtmpl": f"{output_path}{md5_hash}.%(ext)s",  # Set the output filename format
+        "postprocessors": [
+            {  # Postprocess the audio file
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": audio_format,  # Convert to the desired format (e.g., mp3)
+                "preferredquality": "192",  # Set audio quality (in kbps)
+            }
+        ],
+        "ffmpeg_location": "/usr/bin/ffmpeg",
+        "postprocessor_args": ["-ar", "16000"],  # Set the audio sample rate to 16 kHz
+        "noplaylist": True,  # Only download a single video if it's part of a playlist
     }
 
     # Use yt-dlp to download the audio
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         print(f"Downloading audio from {url}...")
         ydl.download([url])
-        return md5_hash+"."+audio_format
+        return md5_hash + "." + audio_format
