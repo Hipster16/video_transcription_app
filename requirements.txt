@@ -2,4 +2,4 @@ yt-dlp
 google.generativeai
 streamlit
 ffmpeg
-markkdown2
+markdown2
