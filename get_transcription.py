@@ -14,9 +14,7 @@ def prompt_selector(mode: str) -> str:
         str: The selected prompt for the specified mode.
     """
     if mode == "Word By Word":
-        return """Detect the language in the audio file provided and transcribe it to English as shown in the example below:
-
-        Recently, just about to come out of 22 years old young Maldini, leg length is 11, compared to previous Maldini, they are all longer. So I'll use August 15th latest updated original data base package out the model file.
+        return """Detect the language in the audio file provided and transcribe it to English. Ensure the entire audio is transcribed. Give the transcribed text ONLY.
 
         """
     elif mode == "Summary":
