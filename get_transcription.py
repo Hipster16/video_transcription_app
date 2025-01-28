@@ -114,13 +114,11 @@ def get_transcription(file_name: str, transcription_mode: str) -> str:
     )
 
     # Upload the audio file to Gemini
-    files = [
-        upload_to_gemini(f"downloads/{file_name}", mime_type="audio/mpeg"),
-    ]
+    files = genai.upload_file(f"downloads/{file_name}", mime_type="audio/mpeg")
 
-    # Start a chat session with the model
-    chat_session = model.start_chat()
+    prompt = prompt_selector(transcription_mode)
 
-    # Send the uploaded file and get the transcription response
-    response = chat_session.send_message(files[0])
+    response = model.generate_content([prompt, files])
+
+    files.delete()
     return response.text or ""
