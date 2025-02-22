@@ -14,12 +14,12 @@ def prompt_selector(mode: str) -> str:
         str: The selected prompt for the specified mode.
     """
     if mode == "Word By Word":
-        return """Detect the language in the audio file provided and transcribe it to English. Ensure the entire audio is transcribed. Give the transcribed text ONLY.
+        return """Detect the language in the audio file provided and transcribe it to English.  Ensure the entire audio is transcribed and the transcripted text is im ENGLISH. Give the transcribed text ONLY.
 
         """
     elif mode == "Summary":
         return """
-#     give me a descriptive summary of the topics along with the actual transcription that is discussed. I want the output to be summary of the text that is being said and the time intervals in the video at with that is mentioned.
+#     give me a descriptive summary of the topics along with the actual transcription that is discussed. If the voice is in a language other than english, change it to english. I want the output to be summary of the text that is being said and the time intervals in the video at with that is mentioned. MAKE SURE THAT THE TEXT IS IN ENGLISH ONLY.
 #     sample output
 
 # 0:00 - 0:35: Introduction and Overview
@@ -114,11 +114,14 @@ def get_transcription(file_name: str, transcription_mode: str) -> str:
     )
 
     # Upload the audio file to Gemini
+    print(f"Uploading file '{file_name}'...")
     files = genai.upload_file(f"downloads/{file_name}", mime_type="audio/mpeg")
 
+    print(f"Transcribing file '{file_name}'...")
     prompt = prompt_selector(transcription_mode)
 
     response = model.generate_content([prompt, files])
 
+    print("Cleaning up...")
     files.delete()
     return response.text or ""
