@@ -14,7 +14,7 @@ def prompt_selector(mode: str) -> str:
         str: The selected prompt for the specified mode.
     """
     if mode == "Word By Word":
-        return """Detect the language in the audio file provided and transcribe it to English.  Ensure the entire audio is transcribed and the transcripted text is im ENGLISH. Give the transcribed text ONLY.
+        return """Detect the language in the audio file provided and transcribe it to English.  Ensure the entire audio is transcribed and the transcripted text is in ENGLISH with actual english meaning. Give the transcribed text ONLY.
 
         """
     elif mode == "Summary":
